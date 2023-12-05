@@ -24,3 +24,6 @@ Moved the question at the start of the loop. Implemented a go-routine(closure to
 
 Modify the select to have another case that checks if an answer is received via the answer channel & checks its correctness. There is no default case any more.
 This way the quiz ends even rightaway after timer expiration & doesn't wait for user input.
+
+v.2.3
+Implement lable to break the loop. Kinda like goto's from C. But it is helpful to break the loop, instead of return statements, also allows to just use println to enter new line so that program exits & avoid code duplications in printing final score.

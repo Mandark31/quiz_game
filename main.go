@@ -29,6 +29,8 @@ func main() {
 	timer := time.NewTimer(time.Duration(*timelimit) * time.Second)
 
 	correct := 0
+
+problemloop:
 	for i, p := range problems {
 		fmt.Printf("question #%d: %s = ", i+1, p.q)
 
@@ -41,8 +43,8 @@ func main() {
 
 		select {
 		case <-timer.C: // check if timer expired?
-			fmt.Printf("\nYou scored %d out of %d.\n", correct, len(problems))
-			return
+			fmt.Println()
+			break problemloop
 		case answer := <-answerCh: // if we get the answer then check for correctness
 			if answer == p.a {
 				correct++
