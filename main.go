@@ -30,17 +30,24 @@ func main() {
 
 	correct := 0
 	for i, p := range problems {
-		select {
-		case <-timer.C:
-			fmt.Printf("You scored %d out of %d.\n", correct, len(problems))
-			return
-		default:
-			fmt.Printf("question #%d: %s = ", i+1, p.q)
+		fmt.Printf("question #%d: %s = ", i+1, p.q)
+
+		answerCh := make(chan string) // channel, for a way to get the answer.
+		go func() {                   // anonymous function to get/scan the user answer
 			var answer string
 			fmt.Scanf("%s\n", &answer)
+			answerCh <- answer // get the answer & send it to the channel(made it a closure by using outside var)
+		}() // calling it rightaway
+
+		select {
+		case <-timer.C: // check if timer expired?
+			fmt.Printf("\nYou scored %d out of %d.\n", correct, len(problems))
+			return
+		case answer := <-answerCh: // if we get the answer then check for correctness
 			if answer == p.a {
 				correct++
 			}
+			// Note: no default case, we always either wait for answer or the timer expires!!!
 		}
 
 	}

@@ -18,3 +18,9 @@ Another flag is implemented to have timelimit to the quiz. The idea is to use ch
 NewTimer method of Time package is used create a new timer. In the loop iterations, select is implemented. A case is used to check for timer expiration & the default case asks the question & gets the answer from user. 
 
 Limitation: If the program is waiting for user's input for answer then it continues to wait even after timer expiration. Although the answer after timer expiration is not considered in final score irrespective of its correctness, its not a great user experience.
+
+v.2.2
+Moved the question at the start of the loop. Implemented a go-routine(closure to be specific) that scans for an answer from user & sends via a channel.
+
+Modify the select to have another case that checks if an answer is received via the answer channel & checks its correctness. There is no default case any more.
+This way the quiz ends even rightaway after timer expiration & doesn't wait for user input.
